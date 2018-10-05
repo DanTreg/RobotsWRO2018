@@ -1,0 +1,394 @@
+﻿@model MainModel
+
+@using ASP.NET_MVC_Application.Extensions;
+@using NET_MVC_Application.Models
+
+@{
+    ViewBag.Title = "All Products";
+
+    if (Model.IsPartial)
+    {
+        Layout = null;
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+
+
+
+    @functions{
+
+        string getColor(ProductModel product)
+        {
+            if (product == null)
+                return "white";
+
+            // TODO: freshness?
+            switch (product.ExpirationStatus)
+            {
+                case 1: return "red";
+                case 2: return "green";
+                case 3: return "yellow";
+                case 4: return "red";
+                case 5: return "aqua";
+                default:
+                    return "white";
+            }
+        }
+
+        string getFreshness(ProductModel product)
+        {
+            if (product.LastTransportationChain != null)
+            {
+                if (product.LastTransportationChain.Freshness)
+                {
+                    return "OK";
+                }
+
+                return "FALSE";
+            }
+
+            return null;
+        }
+
+        string getMachineTitle(MachineStatus status)
+        {
+            if (status == MachineStatus.Came)
+            {
+                return "МАШИНА ПРИШЛА!!!";
+            }
+
+            if (status == MachineStatus.Gone)
+            {
+                return "МАШИНУ УШЛА!!!";
+            }
+
+            return string.Empty;
+        }
+    }
+
+    @helper PlaceCol(Place place)
+    {
+        var product = Model.Products.FirstOrDefault(x => x.Place == place);
+
+
+        if (product == null)
+        {
+            <td class="table-storage-td" style="background-color: white; font-size: 25px;">Пусто</td>
+
+        }
+        else
+        {
+            <td class="table-storage-td" style="background-color: @getColor(product); font-size: 25px;">@product.Name</td>
+        }
+    }
+}
+
+<div @(!Model.IsPartial ? "id=main-container" : null)>
+    <h3>Детали</h3>
+
+    <p>Создайте новый продукт <a href="~/Products/Create">здесь</a>. </p>
+
+
+    <div class="container">
+
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="row">
+                    <div class="col-lg-offset-1">Склад<br /><br /></div>
+                </div>
+                <div class="row" id="products-table">
+                    @{ Html.RenderAction("ProductsTable", "Products");}
+                </div>
+                <div class="row">
+                    <hr />
+                </div>
+                <div class="row">
+                    <div class="col-lg-offset-1">Перемещение<br /><br /></div>
+                </div>
+                <div class="row">
+                    <div class="" style="border:1px solid black;margin-left:36px;">
+                        <div class="row" style="padding:10px;">
+                            <div style="border:1px solid black;padding:10px;padding-left:20px;
+margin-left:130px;
+height:100px;
+width:200px;
+float:left;">
+                                Робот1/@(Model.Robot1 != null ? Model.Robot1.Direction : null)
+                                @if (Model.Robot1 != null && Model.Robot1.Product != null)
+                                {
+                                    <div style="@(Model.Robot1.Product.LastTransportationChain.Freshness ?
+   "background-color:red;" : null
+
+    )">
+
+                                        <div style="background-color:@getColor(Model.Robot1.Product)">
+                                            Свежесть @getFreshness(Model.Robot1.Product)
+                                        </div>
+
+                                    </div>
+                                }
+                            </div>
+                            <div style="border:1px solid black;padding:10px;
+margin-left:450px;
+width:200px;
+height:100px;
+">
+                                Робот2/@(Model.Robot2 != null ? Model.Robot2.Direction : null)
+                                @if (Model.Robot2 != null && Model.Robot2.Product != null)
+                                {
+                                    <div style="background-color:@getColor(Model.Robot2.Product)">
+                                        Свежесть: @getFreshness(Model.Robot2.Product)
+                                    </div>
+                                }
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col"><hr/></div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-offset-1">Зона погрузки/разгрузки<br /><br /></div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <table style="margin-left:36px;">
+                            <thead>
+                                <tr>
+                                    <th style="text-align:center; color:red;">@getMachineTitle(Model.MachineIncome)</th>
+                                    <th style="text-align:center;color:red;">@getMachineTitle(Model.MachineUtilization)</th>
+                                    <th style="text-align:center;color:red;">@getMachineTitle(Model.MachineOutcome)</th>
+                                </tr>
+                                <tr>
+                                    <th style="text-align:center;">Приход</th>
+                                    <th style="text-align:center;">Утилизация</th>
+                                    <th style="text-align:center;">Отгрузка</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    @PlaceCol(Place.Coming1)
+                                    @PlaceCol(Place.Utilization1)
+                                    @PlaceCol(Place.Outcome1)
+
+                                </tr>
+                                <tr>
+                                    @PlaceCol(Place.Coming2)
+                                    @PlaceCol(Place.Utilization2)
+                                    @PlaceCol(Place.Outcome2)
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div></div>
+            </div>
+            <div class="col-lg-4">
+                <div class="row">
+                    <div class="col">&nbsp;</div>
+                </div>
+                <div class="row">
+                    <div class="col">&nbsp;</div>
+                </div>
+                <div class="row">
+                    <div class="col" style="border: solid 1px black;  margin-left:10px; padding:10px;height:240px;">
+                        Робот1: (@(Model.Robot1 != null ? Model.Robot1.Direction : null))<br />
+                        @if (Model.Robot1 != null && Model.Robot1.Product != null)
+                        {
+                            <div>
+                                Продукт: @(Model.Robot1.Product.Name) &nbsp; &nbsp; &nbsp; Пункт назн: @(Model.Robot1.Product.Destination)<br />
+                                Блокчейн:
+                                <table class="clients-table" style="height:150px; width:100%; overflow-y:scroll; display:block">
+                                    <thead>
+                                        <tr>
+                                            <th>Узел</th>
+                                            <th>Св</th>
+                                            <th>t&#176;C</th>
+                                            <th>Hash</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.Robot1.Product.ProductBlockchains)
+                                        {
+                                            if (item.TransportationChain == null) { continue; }
+
+                                        <tr style="@(item.TransportationChain.Freshness == false ? "color: red;":null )">
+                                            <td>@item.TransportationChain.Place</td>
+                                            <td>@(item.TransportationChain.Freshness ? "OK" : "FALSE" )</td>
+                                            <td>@(item.TransportationChain.Temperature ? "OK" : "FALSE" )</td>
+                                            <td>@item.Hash.Substring(Math.Max(0, item.Hash.Length - 12))</td>
+
+                                        </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">&nbsp;</div>
+                </div>
+                <div class="row">
+                    <div class="col" style="border: solid 1px black;  margin-left:10px; padding:10px;height:240px;">
+                        Робот2: (приход)<br />
+                        @if (Model.Robot2 != null && Model.Robot2.Product != null)
+                        {
+                            <div style="width:100%">
+                                Продукт: @(Model.Robot2.Product.Name) &nbsp; &nbsp; &nbsp; Пункт назн: @(Model.Robot2.Product.Destination)<br />
+                                Блокчейн:
+                                <table class="clients-table"  style="height:150px; width:100%; overflow-y:scroll; display:block">
+                                    <thead>
+                                        <tr>
+                                            <th>Узел</th>
+                                            <th>Св</th>
+                                            <th>t&#176;C</th>
+                                            <th>Hash</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.Robot2.Product.ProductBlockchains)
+                                        {
+                                            if (item.TransportationChain == null) { continue; }
+
+                                            <tr style="@(item.TransportationChain.Freshness == false ? "color: red;":null )">
+                                                <td>@item.TransportationChain.Place</td>
+                                                <td>@(item.TransportationChain.Freshness ? "OK" : "FALSE" )</td>
+                                                <td>@(item.TransportationChain.Temperature ? "OK" : "FALSE" )</td>
+                                                <td>@item.Hash.Substring(Math.Max(0, item.Hash.Length - 12))</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+        <br />
+
+        <div class="col-lg-6" @*style="width: 700px; float: left*@ ">
+            @*<table class="clients-table">
+                <tr>
+                    @*<th style="width:7%">Id</th>*@
+            @*<th style="width:20%">Название</th>
+                        <th style="width:13%">Поставщик</th>
+                        <th style="width:15%">Срок годности</th>
+                        <th style="width:5%">Годен/не годен</th>
+                        <th style="width:5%">Причина</th>
+                        <th style="width:15%">Размещение</th>
+                        <th style="width:20%">Действия</th>
+                    </tr>
+
+                    <tbody id="products-list">
+                        @{ Html.RenderAction("ProductsList", "Products");}
+                    </tbody>
+
+                </table>*@
+        </div>
+        <div class="col-lg-1"></div>
+        @*<div class="col-lg-4" style="float: left;">
+            <table style="width: 800px;  border:1px solid #ccc; margin-left:-150px">
+                <thead>
+                    <tr>
+                        <th style="border:1px solid #ccc">#</th>
+                        <th style="border:1px solid #ccc">Данные блока</th>
+                        <th style="border:1px solid #ccc">Хеш блока</th>
+                    </tr>
+                </thead>
+                <tbody id="blockchain"></tbody>
+            </table>*@
+    </div>
+</div>
+
+@section scripts{
+
+    @if (!Model.IsPartial)
+    {
+        @*<script>
+                function downloadblockchain() {
+                    $.get("/api/v2/products/blockchain",
+                        function (response) {
+
+                            console.log(response);
+
+                            var table = '';
+                            $.each(response,
+                                function (index, value) {
+                                    table += '<tr>';
+                                    table += '<td style=\"border:1px solid #ccc\">' + value.Id + '</td>';
+                                    table += '<td style=\"border:1px solid #ccc\">' + value.Comment + '</td>';
+                                    table += '<td style=\"border:1px solid #ccc\">' + value.Hash + '</td>';
+                                    table += '</tr>';
+                                });
+
+                            $('#blockchain').html(table);
+
+                            setTimeout(function () {
+                                downloadblockchain();
+                            },
+                                3000);
+                        });
+                }
+
+                downloadblockchain();
+
+                function downloadProducts() {
+
+                    $.get("/Products/ProductsList",
+                        function (response) {
+                            console.log(response);
+                            $('#products-list').html(response);
+
+                            setTimeout(function () {
+                                downloadProducts();
+                            },
+                                3000);
+                        });
+                }
+
+                downloadProducts();
+
+                function downloadProductsTable() {
+
+                    $.get("/Products/ProductsTable",
+                        function (response) {
+                            console.log(response);
+                            $('#products-table').html(response);
+
+                            setTimeout(function () {
+                                downloadProductsTable();
+                            },
+                                2000);
+                        });
+                }
+
+                downloadProductsTable();
+
+
+            </script>*@
+
+        <script>
+            function update() {
+                $.get("/Products/Partial",
+                    function (response) {
+                        console.log(response);
+
+                        $('#main-container').html(response);
+
+                        setTimeout(function () {
+                            update()
+                        }, 5000);
+                    });
+            }
+
+            update();
+        </script>
+    }
+}

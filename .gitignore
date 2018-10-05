@@ -1,0 +1,11 @@
+.vs/
+ASP.NET MVC Application/bin/Antlr3.Runtime.pdb
+ASP.NET MVC Application/bin/Antlr3.Runtime.dll
+ASP.NET MVC Application/bin/
+packages/
+ASP.NET MVC Application/obj/
+*.suo
+*.user
+*.zip
+Web/Robots.Web/bin/
+Web/Robots.Web/obj/

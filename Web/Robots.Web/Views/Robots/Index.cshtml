@@ -1,0 +1,53 @@
+﻿@model IEnumerable<ASP.NET_MVC_Application.Models.Robot>
+
+@using ASP.NET_MVC_Application.Extensions;
+@using NET_MVC_Application.Models
+
+@{
+    ViewBag.Title = "All Robots";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+
+<h3>Детали</h3>
+
+
+<p>Создайте нового робота <a href="~/Robots/Create">здесь</a>. </p>
+
+<div class="container">
+    
+    <br/>
+    <br/>
+    <div class="col-lg-6"@*style="width: 700px; float: left*@">
+        <table class="clients-table">
+            <tr>
+                @*<th style="width:7%">Id</th>*@
+                <th style="width:20%">Id</th>
+                <th style="width:30%">Name</th>
+                <th style="width:40%">Direction</th>
+                <th style="width:10%">Actions</th>
+            </tr>
+            @if (Model != null && Model.Count() > 0)
+            {
+                foreach (var robot in Model)
+                {
+                    // Create the list of these clients
+                    <tr>
+                        <td style="width:20%">@robot.Id</td>
+                        <td style="width:30%">@robot.Name</td>
+                        <td style="width:40%">@robot.Direction</td>
+                        <td style="width:10%">
+                            <a href="~/Robots/Delete/@robot.Id">Delete</a>
+                        </td>
+                    </tr>
+                }
+            }
+
+
+        </table>
+    
+
+</div>
+</div>

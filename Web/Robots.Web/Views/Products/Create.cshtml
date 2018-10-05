@@ -1,0 +1,51 @@
+﻿@model ASP.NET_MVC_Application.Models.Product
+
+@using ASP.NET_MVC_Application.Models;
+@using ASP.NET_MVC_Application.Extensions;
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+
+    var allProducts = (List<Product>) ViewBag.All;
+}
+
+<div>
+    <h3>Заполните форму</h3>
+</div>
+<form method="post" style="margin: 5% 0 0">
+    <div class="float-left">
+        <p>Имя</p>
+        <p>Поставщик</p>
+        <p>Срок годности</p>
+        <p>Размещение</p>
+    </div>
+    <div class="float-right">
+        @*<input type="text" style="margin: 1px 0 2px" name="id" /><br />*@
+        <input type="text" style="margin: 1px 0 2px" name="name" /><br />
+        <input type="text" style="margin: 1px 0 2px" name="supplier" /><br />
+        <input type="date" value="2018-06-13" style="margin: 1px 0 2px" name="expirationdate" /><br />
+        <select name="place" class="dropdownstyle">
+            @foreach (var item in Enum.GetValues(typeof(Place)).Cast<Place>())
+            {
+                if (allProducts.Any(x => x.Place == item))
+                {
+                    continue;
+                }
+
+                <option value="@item">@item.GetEnumDescription()</option>
+            }
+        </select>
+
+        <br/>
+        <input type="submit" value="Save" />
+    </div>
+</form>
+
+<p>
+    @if (ViewBag.Submitted)
+    {
+        // If the form was submitted
+        @ViewBag.Message
+    }
+</p>

@@ -1,0 +1,60 @@
+﻿@using NET_MVC_Application.Models
+@model IEnumerable<ASP.NET_MVC_Application.Models.Product>
+
+
+
+@functions{
+
+    string getColor(Product product)
+    {
+        if (product == null)
+            return "white";
+
+        switch (product.ExpirationStatus)
+        {
+            case 1: return "red";
+            case 2: return "green";
+            case 3: return "yellow";
+            case 4: return "red";
+            case 5: return "aqua";
+            default:
+                return "white";
+        }
+    }
+}
+
+@helper PlaceCol(Place place)
+{
+
+
+    var product = Model.FirstOrDefault(x => x.Place == place);
+
+
+    if (product == null)
+    {
+        <td class="table-storage-td" style="background-color: white; font-size: 25px;">Пусто</td>
+
+    }
+    else
+    {
+        <td class="table-storage-td" style="background-color: @getColor(product); font-size: 25px;">@product.Name</td>
+    }
+}
+
+<table style="margin-left:36px;">
+    <tr>
+        @PlaceCol(Place.Aisle1Place3)
+        @PlaceCol(Place.Aisle2Place3)
+        @PlaceCol(Place.Aisle3Place3)
+    </tr>
+    <tr>
+        @PlaceCol(Place.Aisle1Place2)
+        @PlaceCol(Place.Aisle2Place2)
+        @PlaceCol(Place.Aisle3Place2)
+    </tr>
+    <tr>
+        @PlaceCol(Place.Aisle1Place1)
+        @PlaceCol(Place.Aisle2Place1)
+        @PlaceCol(Place.Aisle3Place1)
+    </tr>
+</table>

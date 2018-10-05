@@ -1,0 +1,20 @@
+﻿@model IEnumerable<ASP.NET_MVC_Application.Models.ProductBlockchain>
+<table>
+    <thead>
+        <tr>
+            <th>Узел</th>
+            <th>Св</th>
+            <th>t&#176;C</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr style="@(item.TransportationChain.Freshness == false ? "color: red;":null )">
+                <td>@item.TransportationChain.Place</td>
+                <td>@(item.TransportationChain.Freshness  ? "OK" : "FALSE" )</td>
+                <td>@(item.TransportationChain.Temperature? "OK" : "FALSE" )</td>
+            </tr>
+        }
+    </tbody>
+</table>

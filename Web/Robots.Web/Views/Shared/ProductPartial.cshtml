@@ -1,0 +1,37 @@
+﻿@using NET_MVC_Application.Extensions
+@model IEnumerable<ASP.NET_MVC_Application.Models.Product>
+@{
+    Layout = null;
+}
+
+@if (Model != null && Model.Count() > 0)
+{
+    foreach (var product in Model)
+    {
+        // Create the list of these clients
+        <tr>
+            @*<td style="width:7%">@product.Id</td>*@
+            <td style="width:20%">@product.Name</td>
+            <td style="width:13%">@product.Supplier</td>
+            <td style="width:15%">@product.ExpirationDate.Date.ToString("d")</td>
+            <td style="width:5%">
+                @if (product.ExpirationStatus == 4)
+                {<text>Не годен</text>;
+            }
+                @if (product.ExpirationStatus == 2)
+                {<text>Годен</text>;
+            }
+                @if (product.ExpirationStatus == 3)
+                {<text>Истекает срок</text>;
+            }
+
+            </td>
+            <td style="width:15%">@product.Reason</td>
+            <td style="width:15%">@product.Place.GetEnumDescription()</td>
+            <td style="width:10%">
+                <a href="~/Products/Update/@product.Id">Обновить</a>
+                <a href="~/Products/Delete/@product.Id">Удалить</a>
+            </td>
+        </tr>
+    }
+}
