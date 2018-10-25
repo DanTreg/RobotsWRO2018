@@ -5,7 +5,6 @@ import time
 from datetime import datetime
 import paho.mqtt.client as mqtt
 from threading import Thread, Lock
-#import sys
 
 
 class ListenEv4(Thread):
