@@ -16,3 +16,4 @@ Alexander Chetvergov - Coach
 <li><a href=https://github.com/DanTreg/RobotsWRO2018/tree/master/Robots/Rack%20lift%20lib> Rack lift lib</a> - used in main robot program</li>
 </ul>
 <a href=https://github.com/DanTreg/RobotsWRO2018/tree/master/Trucks>Trucks</a> - Trucks Specific Software, based on ev3dev and mqtt paho original libs<br/>
+<a href=https://github.com/DanTreg/RobotsWRO2018/tree/master/Rpi>Rpi</a> - Rpi Specific Software, based on opencv and mqtt paho original libs<br/>
