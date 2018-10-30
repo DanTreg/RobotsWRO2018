@@ -1,13 +1,16 @@
 # RobotsWRO2018
-<h2>Team Members</h2>
+<h3>Team Members</h3>
 Dani Tregubov - Software Engineer, Navigation Software <br/>
 Eduard Salavatov - Software Engineer, Robots and Trucks Software<br/>
 Bulat Trofimov - Constructor, Mechanics and Engeneering<br/>
 
 Alexander Chetvergov - Coach
 
-<h2>Repository Structure</h2><br/>
+<h3>Repository Structure</h3><br/>
 <a href="https://github.com/DanTreg/RobotsWRO2018/tree/master/Web">Web</a> - Database and WebApplication<br/>
+<ul>
+<li>P.S. RobotsManagement.sin is for oppening project code in Visual Studio</li>
+</ul>
 <a href=https://github.com/DanTreg/RobotsWRO2018/tree/master/Navigation>Navigation</a> - Navigation Software, based on opencv and mqtt paho libs for python<br/>
 <a href=https://github.com/DanTreg/RobotsWRO2018/tree/master/Robots>Robots</a> - Robot Specific Software<br/>
 <ul>
