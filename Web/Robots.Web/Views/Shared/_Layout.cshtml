@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - Бережливая логистика</title>
+    <title>@ViewBag.Title - Safety logistics</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
@@ -21,10 +21,10 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Домашняя", "Index", "Home")</li>
-                    <li>@Html.ActionLink("О Нас", "About", "Home")</li>
-                    <li>@Html.ActionLink("Контакты", "Contact", "Home")</li>
-                    <li>@Html.ActionLink("Продукты", "Index", "Products")</li>
+                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li>@Html.ActionLink("About us", "About", "Home")</li>
+                    <li>@Html.ActionLink("Contacts", "Contact", "Home")</li>
+                    <li>@Html.ActionLink("Products", "Index", "Products")</li>
                     <li>@Html.ActionLink("RobotBase", "Index", "Robots")</li>
                 </ul>
                
@@ -35,7 +35,8 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - Бережливая логистика</p>
+            <p>&copy; @DateTime.Now.Year - Safety Logistics</p><br />
+            <img src="/images/Robotland.jpg" width="50" height="50" alt="Error" />
         </footer>
     </div>
 

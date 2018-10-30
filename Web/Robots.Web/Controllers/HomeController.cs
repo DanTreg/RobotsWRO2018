@@ -15,14 +15,14 @@ namespace ASP.NET_MVC_Application.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "Описание проекта";
+            ViewBag.Message = "Project description";
 
             return View();
         }
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "Контакты";
+            ViewBag.Message = "Contacts";
 
             return View();
         }

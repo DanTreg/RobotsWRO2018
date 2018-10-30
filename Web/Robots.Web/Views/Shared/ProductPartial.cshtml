@@ -16,21 +16,21 @@
             <td style="width:15%">@product.ExpirationDate.Date.ToString("d")</td>
             <td style="width:5%">
                 @if (product.ExpirationStatus == 4)
-                {<text>Не годен</text>;
+                {<text>Bad condition</text>;
             }
                 @if (product.ExpirationStatus == 2)
-                {<text>Годен</text>;
+                {<text>Good condition</text>;
             }
                 @if (product.ExpirationStatus == 3)
-                {<text>Истекает срок</text>;
+                {<text>Expiration is almost past</text>;
             }
 
             </td>
             <td style="width:15%">@product.Reason</td>
             <td style="width:15%">@product.Place.GetEnumDescription()</td>
             <td style="width:10%">
-                <a href="~/Products/Update/@product.Id">Обновить</a>
-                <a href="~/Products/Delete/@product.Id">Удалить</a>
+                <a href="~/Products/Update/@product.Id">Update</a>
+                <a href="~/Products/Delete/@product.Id">Delete</a>
             </td>
         </tr>
     }

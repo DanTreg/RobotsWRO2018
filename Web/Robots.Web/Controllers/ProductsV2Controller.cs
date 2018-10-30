@@ -16,7 +16,7 @@ namespace ASP.NET_MVC_Application.Controllers
     {
         private readonly ProductRepository _productRepository = new ProductRepository();
         private readonly ProductBlockchainRepository _productBlockchainRepository = new ProductBlockchainRepository();
-        private const string Center = "Логистический центр RobotLand";
+        private const string Center = "Rob";
         private MachinesRepository _machinesRepository = new MachinesRepository();
 
         public static bool Aisle1Status { get; set; }

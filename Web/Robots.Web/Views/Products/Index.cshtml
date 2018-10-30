@@ -56,12 +56,12 @@
         {
             if (status == MachineStatus.Came)
             {
-                return "МАШИНА ПРИШЛА!!!";
+                return "Truck has arrived";
             }
 
             if (status == MachineStatus.Gone)
             {
-                return "МАШИНУ УШЛА!!!";
+                return "Car has left";
             }
 
             return string.Empty;
@@ -75,7 +75,9 @@
 
         if (product == null)
         {
-            <td class="table-storage-td" style="background-color: white; font-size: 25px;">Пусто</td>
+            <td class="table-storage-td" style="background-color: white; font-size: 25px;">
+
+            </td>
 
         }
         else
@@ -86,9 +88,9 @@
 }
 
 <div @(!Model.IsPartial ? "id=main-container" : null)>
-    <h3>Детали</h3>
+    <h3>Details</h3>
 
-    <p>Создайте новый продукт <a href="~/Products/Create">здесь</a>. </p>
+    <p>Create a new product <a href="~/Products/Create">here</a>. </p>
 
 
     <div class="container">
@@ -96,7 +98,7 @@
         <div class="row">
             <div class="col-lg-6">
                 <div class="row">
-                    <div class="col-lg-offset-1">Склад<br /><br /></div>
+                    <div class="col-lg-offset-1">Logistic center<br /><br /></div>
                 </div>
                 <div class="row" id="products-table">
                     @{ Html.RenderAction("ProductsTable", "Products");}
@@ -105,7 +107,7 @@
                     <hr />
                 </div>
                 <div class="row">
-                    <div class="col-lg-offset-1">Перемещение<br /><br /></div>
+                    <div class="col-lg-offset-1">In transfer<br /><br /></div>
                 </div>
                 <div class="row">
                     <div class="" style="border:1px solid black;margin-left:36px;">
@@ -115,7 +117,7 @@ margin-left:130px;
 height:100px;
 width:200px;
 float:left;">
-                                Робот1/@(Model.Robot1 != null ? Model.Robot1.Direction : null)
+                                Robot1/@(Model.Robot1 != null ? Model.Robot1.Direction : null)
                                 @if (Model.Robot1 != null && Model.Robot1.Product != null)
                                 {
                                     <div style="@(Model.Robot1.Product.LastTransportationChain.Freshness ?
@@ -124,7 +126,7 @@ float:left;">
     )">
 
                                         <div style="background-color:@getColor(Model.Robot1.Product)">
-                                            Свежесть @getFreshness(Model.Robot1.Product)
+                                            Fresness @getFreshness(Model.Robot1.Product)
                                         </div>
 
                                     </div>
@@ -135,11 +137,11 @@ margin-left:450px;
 width:200px;
 height:100px;
 ">
-                                Робот2/@(Model.Robot2 != null ? Model.Robot2.Direction : null)
+                                Robot2/@(Model.Robot2 != null ? Model.Robot2.Direction : null)
                                 @if (Model.Robot2 != null && Model.Robot2.Product != null)
                                 {
                                     <div style="background-color:@getColor(Model.Robot2.Product)">
-                                        Свежесть: @getFreshness(Model.Robot2.Product)
+                                        Freshness: @getFreshness(Model.Robot2.Product)
                                     </div>
                                 }
 
@@ -151,7 +153,7 @@ height:100px;
                     <div class="col"><hr/></div>
                 </div>
                 <div class="row">
-                    <div class="col-lg-offset-1">Зона погрузки/разгрузки<br /><br /></div>
+                    <div class="col-lg-offset-1">Input/Utillization/Output zone<br /><br /></div>
                 </div>
                 <div class="row">
                     <div class="col">
@@ -163,9 +165,9 @@ height:100px;
                                     <th style="text-align:center;color:red;">@getMachineTitle(Model.MachineOutcome)</th>
                                 </tr>
                                 <tr>
-                                    <th style="text-align:center;">Приход</th>
-                                    <th style="text-align:center;">Утилизация</th>
-                                    <th style="text-align:center;">Отгрузка</th>
+                                    <th style="text-align:center;">Input</th>
+                                    <th style="text-align:center;">Utilization</th>
+                                    <th style="text-align:center;">Output</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -195,17 +197,17 @@ height:100px;
                 </div>
                 <div class="row">
                     <div class="col" style="border: solid 1px black;  margin-left:10px; padding:10px;height:240px;">
-                        Робот1: (@(Model.Robot1 != null ? Model.Robot1.Direction : null))<br />
+                        Robot1: (@(Model.Robot1 != null ? Model.Robot1.Direction : null))<br />
                         @if (Model.Robot1 != null && Model.Robot1.Product != null)
                         {
                             <div>
-                                Продукт: @(Model.Robot1.Product.Name) &nbsp; &nbsp; &nbsp; Пункт назн: @(Model.Robot1.Product.Destination)<br />
-                                Блокчейн:
+                                Product: @(Model.Robot1.Product.Name) &nbsp; &nbsp; &nbsp; Destanation point: @(Model.Robot1.Product.Destination)<br />
+                                Blockchain:
                                 <table class="clients-table" style="height:150px; width:100%; overflow-y:scroll; display:block">
                                     <thead>
                                         <tr>
-                                            <th>Узел</th>
-                                            <th>Св</th>
+                                            <th>Place</th>
+                                            <th>Freshness</th>
                                             <th>t&#176;C</th>
                                             <th>Hash</th>
 
@@ -235,17 +237,17 @@ height:100px;
                 </div>
                 <div class="row">
                     <div class="col" style="border: solid 1px black;  margin-left:10px; padding:10px;height:240px;">
-                        Робот2: (приход)<br />
+                        Robot2: (input)<br />
                         @if (Model.Robot2 != null && Model.Robot2.Product != null)
                         {
                             <div style="width:100%">
-                                Продукт: @(Model.Robot2.Product.Name) &nbsp; &nbsp; &nbsp; Пункт назн: @(Model.Robot2.Product.Destination)<br />
-                                Блокчейн:
+                                Product: @(Model.Robot2.Product.Name) &nbsp; &nbsp; &nbsp; Destanation point: @(Model.Robot2.Product.Destination)<br />
+                                Blockhain:
                                 <table class="clients-table"  style="height:150px; width:100%; overflow-y:scroll; display:block">
                                     <thead>
                                         <tr>
-                                            <th>Узел</th>
-                                            <th>Св</th>
+                                            <th>Place</th>
+                                            <th>Freshness</th>
                                             <th>t&#176;C</th>
                                             <th>Hash</th>
                                         </tr>
