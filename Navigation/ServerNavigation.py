@@ -12,7 +12,7 @@ class ListenEv4(Thread):
     def __init__(self, name):
         Thread.__init__(self)
         self.name = name
-        pc.connect("192.168.0.110", 1883, 60)
+        pc.connect("192.168.1.110", 1883, 60)
         pc.on_connect = self.on_connect
         pc.on_message = self.on_message
         print("client is created")
@@ -36,7 +36,7 @@ class ListenEv3(Thread):
     def __init__(self, name):
         Thread.__init__(self)
         self.name = name
-        listener.connect("192.168.0.110", 1883, 60)
+        listener.connect("192.168.1.110", 1883, 60)
         listener.on_connect = self.on_connect
         listener.on_message = self.on_message
         print("client is created")
@@ -150,9 +150,9 @@ class cap_circles(Thread):
             cv2.circle(image, (cenX1, cenY1), cenRradius, (0, 255, 255), 1)
             cv2.circle(image, (cenX2, cenY2), cenYradius, (0, 255, 255), 1)
             cv2.line(image, (560, 420), (560, 50), (0,255,255), 10)
-            cv2.line(image, (50, 420), (50, 50), (0,255,255), 10)
-            cv2.line(image, (560, 50), (50, 50), (0,255,255), 10)
-            cv2.line(image, (50, 420), (560, 420), (0,255,255), 10)
+            cv2.line(image, (60, 420), (60, 50), (0,255,255), 10)
+            cv2.line(image, (560, 50), (60, 50), (0,255,255), 10)
+            cv2.line(image, (60, 420), (560, 420), (0,255,255), 10)
 
 
             
@@ -200,6 +200,7 @@ class cap_circles(Thread):
             cv2.circle(threshold, (cenX2, cenY2), circle_radius, (255, 255, 255), -1)
             cnts = cv2.findContours(threshold.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)[-2]
             
+            
             if len(cnts) == 2:
                 if flag_obezd == 1:
                     flag_obezd = 0
@@ -220,7 +221,7 @@ class cap_circles(Thread):
                 else:
                     pass 
                 
-
+            cv2.putText(threshold,'circle radius:' + str(circle_radius), (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 0.4,(255, 255, 255),1)
             cv2.imshow("original1", threshold)
                 #time_end = datetime.now()
                 #print('centers:', cenR, cenG)
@@ -237,7 +238,7 @@ class navigation_ev3(Thread):
     def __init__(self):
         global senderEv3
         super(navigation_ev3, self).__init__()
-        senderEv3.connect("192.168.0.110", 1883, 1000)
+        senderEv3.connect("192.168.1.110", 1883, 1000)
         self.constEv3 = True
 
     def run(self):
@@ -538,8 +539,10 @@ class navigation_ev3(Thread):
         global msgFromEv3
         global cenG
         global cenR
+        global circle_radius
         while (self.constEv3):
             while (self.constEv3):
+                self.check_interception()
                 time.sleep(1)
                 if msgFromEv3 != '':
                     #print('in the loop')
@@ -586,11 +589,27 @@ class navigation_ev3(Thread):
 
                     break
                 # time.sleep(2)
-
+            circle_radius = 120
             if (self.check_position()):
                 if (self.go_x()):
                     if (self.check_on_endPoint()):
                         print(" !!! ")
+
+    def check_interception(self):
+        global cenX2
+        global cenY2
+        global endUtill
+        global circle_radius
+        if cenX2 != None and cenY2 != None:
+
+            length = math.sqrt(pow(cenX2 - endUtill[0], 2) + pow(cenY2 - endUtill[1], 2))
+            if circle_radius > length:
+                circle_radius = 100
+            else:
+                circle_radius = 120
+
+
+
 
     def stop(self):
         self.constEv3 = False
@@ -603,7 +622,7 @@ class navigation_ev4(Thread):
     def __init__(self):
         global senderEv4
         super(navigation_ev4, self).__init__()
-        senderEv4.connect("192.168.0.110", 1883, 1000)
+        senderEv4.connect("192.168.1.110", 1883, 1000)
         self.constEv4 = True
 
 
@@ -946,15 +965,37 @@ class navigation_ev4(Thread):
 
         else:
             print('kek')
-            if cenX1 < cenX2:
-                senderEv4.publish("pc/to/ev4", 'a0' + 'd' + str(d))
-                print('tyta1')
-                return None
-            else:
-                senderEv4.publish("pc/to/ev4", 'a180' + 'd' + str(d))
-                print('tyta2')
-                return None
+            side = self.check_direction()
+            if side == 0:
 
+                if cenX1 < cenX2:
+                    senderEv4.publish("pc/to/ev4", 'a0' + 'd' + str(d))
+                    print('turned to storage')
+                    return None
+                else:
+                    senderEv4.publish("pc/to/ev4", 'a180' + 'd' + str(d))
+                    print('turned to cars')
+                    return None
+            else:
+                if cenX1 < cenX2:
+                    senderEv4.publish("pc/to/ev4", 'a180' + 'd' + str(d))
+                    print('turned to cars(180)')
+                    return None
+                else:
+                    senderEv4.publish("pc/to/ev4", 'a0' + 'd' + str(d))
+                    print('turned to storage(180)')
+                    return None
+
+    
+    def check_direction(self):
+        global cenB
+        global cenY
+        if cenY[1] < cenB[1]:
+            side = 0
+        if cenY[1] > cenB[1]:
+             
+            side = 180
+        return side
         
 
     def main_1(self):
@@ -1048,9 +1089,9 @@ endPoint1 = (640, 0)
 flag = 0 #флаг для избежания повторов
 #END POINTS
 #по инпуту
-sklad1 = (160,150)
-sklad2 = (320,150)
-sklad3 = (470,150)
+sklad1 = (160,100)
+sklad2 = (320,100)
+sklad3 = (470,100)
 #по a_output
 
 
@@ -1060,9 +1101,9 @@ cenX2 = None
 cenY2 = None
 
 
-endInput = (60,360)
-endOutput = (530,360)
-endUtill = (310,360)
+endInput = (70,350)
+endOutput = (570,330)
+endUtill = (310,350)
 
 #NAMES END POINT
 nameEndPoint = ''
