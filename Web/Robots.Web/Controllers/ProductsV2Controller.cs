@@ -82,7 +82,7 @@ namespace ASP.NET_MVC_Application.Controllers
 
             product = _productRepository.Create(product);
 
-            var blockchainComment = $"продукт #{product.Id} {product.Name}:<br/>поступил на склад и находится в {product.Place.GetEnumDescription()} ";
+            var blockchainComment = $"Product #{product.Id} {product.Name}:<br/>in warehouse, and will be moved to {product.Place.GetEnumDescription()} ";
 
             _productBlockchainRepository.Create(new ProductBlockchain
             {
@@ -111,7 +111,7 @@ namespace ASP.NET_MVC_Application.Controllers
 
             product = _productRepository.Create(product);
 
-            var blockchainComment = $"продукт #{product.Id} {product.Name}:<br/>поступил на склад и находится в {product.Place.GetEnumDescription()} ";
+            var blockchainComment = $"Product #{product.Id} {product.Name}:<br/>is at the warehouse, and at {product.Place.GetEnumDescription()} ";
 
             _productBlockchainRepository.Create(new ProductBlockchain
             {
@@ -202,7 +202,7 @@ namespace ASP.NET_MVC_Application.Controllers
                 });
             }
 
-            var blockchainComment = $"#{product.Id} {product.Name} содержит повышенные пары этилена";
+            var blockchainComment = $"#{product.Id} {product.Name} is of bad qualitty and has ethylene";
 
             product.ExpirationStatus = 4;
 
@@ -252,7 +252,7 @@ namespace ASP.NET_MVC_Application.Controllers
             }
 
 
-            var blockchainComment = $"#{product.Id} {product.Name} не содержит паров этилена";
+            var blockchainComment = $"#{product.Id} {product.Name} is good qualitty and doesn't contain ethylene";
 
             product.ExpirationStatus = 2;
 
@@ -297,7 +297,7 @@ namespace ASP.NET_MVC_Application.Controllers
                 });
             }
 
-            var blockchainComment = $"#{product.Id} {product.Name} перемещен c {product.Place.GetEnumDescription()} в {model.Place.GetEnumDescription()}";
+            var blockchainComment = $"#{product.Id} {product.Name} moved from {product.Place.GetEnumDescription()} to {model.Place.GetEnumDescription()}";
 
             product.Place = model.Place;
             if (!model.Freshness)
@@ -342,7 +342,7 @@ namespace ASP.NET_MVC_Application.Controllers
             Product product = _productRepository.GetByName(prdct.Name);
             if (product == null)
                 throw new HttpResponseException(HttpStatusCode.BadRequest);
-            var blockchainComment = $"#{product.Id} {product.Name}:<br/>отправлен на быструю реализацию";
+            var blockchainComment = $"#{product.Id} {product.Name}:<br/>moved to humanitarian mission";
             _productRepository.Delete(product);
             _productBlockchainRepository.Create(new ProductBlockchain
             {
@@ -366,7 +366,7 @@ namespace ASP.NET_MVC_Application.Controllers
             Product product = _productRepository.GetByName(prdct.Name);
             if (product == null)
                 throw new HttpResponseException(HttpStatusCode.BadRequest);
-            var blockchainComment = $"#{product.Id} {product.Name}:<br/>отправлен на переработку";
+            var blockchainComment = $"#{product.Id} {product.Name}:<br/>send to utillization";
             _productRepository.Delete(product);
             _productBlockchainRepository.Create(new ProductBlockchain
             {
@@ -389,7 +389,7 @@ namespace ASP.NET_MVC_Application.Controllers
         [Route("alert"), HttpPost]
         public void Alert()
         {
-            var blockchainComment = $"Обнаружен посторонний на территории";
+            var blockchainComment = $"Detected human involment";
 
             _productBlockchainRepository.Create(new ProductBlockchain
             {

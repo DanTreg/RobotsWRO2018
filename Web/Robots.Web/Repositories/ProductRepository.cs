@@ -10,7 +10,7 @@ namespace ASP.NET_MVC_Application.Repositories
     {
         protected override string EntityName => "Products";
 
-        //Получение списка продуктов 
+        //get product list
 
         public override List<Product> GetAll(bool includeDeleted = false)
         {
@@ -19,7 +19,7 @@ namespace ASP.NET_MVC_Application.Repositories
             return list;
         }
 
-        //Поиск продукта по имени
+        //find product by name
 
         public Product GetByName(string name)
         {
@@ -61,24 +61,24 @@ namespace ASP.NET_MVC_Application.Repositories
     }
 
     //Создание новой записи блокчейн, записи различаются есть или нет айди продукта, в случае Alert айди продукта = null и не участвует в записи
-
+    //Create new blockchain record
     public class ProductBlockchainRepository : BaseRepository<ProductBlockchain>
     {
         protected override string EntityName => "ProductBlockchain";
 
         public override ProductBlockchain Create(ProductBlockchain blockchain)
         {
-            var rand = new Random(); //рандомное число
-            var currentTime = DateTime.Now; //текущее время и дата
+            var rand = new Random(); //random integer
+            var currentTime = DateTime.Now; //current date time
             var word = "";
-            var last = GetAll().OrderByDescending(x => x.Id).FirstOrDefault(); //получаем хеш последней записи, если есть
+            var last = GetAll().OrderByDescending(x => x.Id).FirstOrDefault(); //get last record hash if exists
             if (blockchain.ProductId is null)
             {
-                word = $"{last?.Hash}:{blockchain.Comment}:{currentTime.ToString()}:{rand.ToString()}"; //создаем блокчейн запись
+                word = $"{last?.Hash}:{blockchain.Comment}:{currentTime.ToString()}:{rand.ToString()}"; //create new blockchain record
             }
             else
             {
-                word = $"{last?.Hash}:{blockchain.Comment}:{blockchain.ProductId}:{currentTime.ToString()}:{rand.ToString()}"; //создаем блокчейн запись
+                word = $"{last?.Hash}:{blockchain.Comment}:{blockchain.ProductId}:{currentTime.ToString()}:{rand.ToString()}"; //forming new blockchain record
             }
             blockchain.Hash = CryptographyExtensions.GetHashSha256(word);
 
@@ -92,7 +92,7 @@ namespace ASP.NET_MVC_Application.Repositories
     {
         protected override string EntityName => "Robot";
 
-        //Получение списка продуктов 
+        //get product list
 
         public override List<Robot> GetAll(bool includeDeleted = false)
         {
@@ -101,7 +101,7 @@ namespace ASP.NET_MVC_Application.Repositories
             return list;
         }
 
-        //Поиск продукта по имени
+        //find product by name
 
         public Robot GetByName(string name)
         {
