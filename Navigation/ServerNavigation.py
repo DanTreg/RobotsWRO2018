@@ -600,10 +600,16 @@ class navigation_ev3(Thread):
         global cenY2
         global endUtill
         global circle_radius
+        global sklad1
+        global sklad2
+        global sklad3
         if cenX2 != None and cenY2 != None:
 
             length = math.sqrt(pow(cenX2 - endUtill[0], 2) + pow(cenY2 - endUtill[1], 2))
-            if circle_radius > length:
+            length_sklad1 = math.sqrt(pow(cenX2 - sklad1[0], 2) + pow(cenY2 - sklad1[1], 2))
+            length_sklad2 = math.sqrt(pow(cenX2 - sklad2[0], 2) + pow(cenY2 - sklad2[1], 2))
+            length_sklad3 = math.sqrt(pow(cenX2 - sklad3[0], 2) + pow(cenY2 - sklad3[1], 2))
+            if circle_radius > length*2 or circle_radius > length_sklad1*2 or circle_radius > length_sklad2*2 or circle_radius > length_sklad3*2:
                 circle_radius = 100
             else:
                 circle_radius = 120
