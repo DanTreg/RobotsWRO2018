@@ -51,11 +51,28 @@ textarea {
         width: 23%;
         border: 1px solid #999;
     }
+.img-itself {
+    max-height: 100%;
+    max-width: 100%;
+    height: auto;
+}
+
 
 @media (min-width: 1200px)  {
     .container  {
         max-width: 1600px;
     }
+
+    .img-div {
+        max-width: 1400px;
+        
+    }
+
+    .img-itself {
+        margin-left:80px;
+        margin-right:80px;
+    }
+
    
 }
 
@@ -66,3 +83,5 @@ textarea {
     text-align:center;
     margin-left:40px;
 }
+
+.

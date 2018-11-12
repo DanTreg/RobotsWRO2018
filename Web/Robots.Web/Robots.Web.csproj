@@ -210,6 +210,12 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="images\about.png" />
+    <Content Include="images\Banner_Tai_01_left_192x194.jpg" />
+    <Content Include="images\Banner_Tai_02_center_186x194.jpg" />
+    <Content Include="images\Banner_Tai_03_right_192x194.jpg" />
+    <Content Include="images\ContactUs.png" />
+    <Content Include="images\Robotland.jpg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
